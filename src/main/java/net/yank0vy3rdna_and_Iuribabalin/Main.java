@@ -23,7 +23,7 @@ public class Main
     public static void main( String[] args ){
         //Json file name finding
         try {
-            int port = 8888;
+            int port = 9000;
 
             String filename;
             if (args.length != 0) {
