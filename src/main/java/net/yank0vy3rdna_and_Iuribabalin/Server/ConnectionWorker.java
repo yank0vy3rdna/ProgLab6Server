@@ -2,6 +2,9 @@ package net.yank0vy3rdna_and_Iuribabalin.Server;
 
 import net.yank0vy3rdna_and_Iuribabalin.App.Dispatcher;
 
+import java.io.DataInputStream;
+import java.io.DataOutput;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.nio.ByteBuffer;
@@ -28,26 +31,31 @@ public class ConnectionWorker {
     }
 
     public void processing(Socket socket) throws IOException {
-        SocketChannel channel = socket.getChannel();
-        ByteBuffer buffer = ByteBuffer.allocate(4);
-        channel.read(buffer);
+        DataInputStream in = new DataInputStream(socket.getInputStream());
+        DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+        ByteBuffer buffer;
+        byte[] bytes = new byte[4];
+        in.read(bytes,0,4);
+        buffer = ByteBuffer.wrap(bytes);
         int size = buffer.getInt();
-        buffer = ByteBuffer.allocate(size);
-        channel.read(buffer);
+        bytes = new byte[size];
+        in.read(bytes, 0, size);
+        buffer = ByteBuffer.wrap(bytes);
         String command = bb_to_str(buffer, StandardCharsets.UTF_8);
-        buffer = ByteBuffer.allocate(1024);
+        bytes = in.readAllBytes();
+        buffer = ByteBuffer.wrap(bytes);
         String answ;
-        if(channel.read(buffer)!=-1){
+        if(bytes.length!=0){
             answ = dispatcher.dispatch(command);
         }
         else{
             answ = dispatcher.dispatch(command, buffer);
         }
-        byte[] bytes = answ.getBytes(StandardCharsets.UTF_8);
-        ByteBuffer buf = ByteBuffer.allocate(bytes.length);
-        buf.clear();
-        buf.put(bytes);
-        channel.write(buf);
-        channel.finishConnect();
+        bytes = answ.getBytes(StandardCharsets.UTF_8);
+        in.close();
+        out.close();
+        socket.shutdownInput();
+        socket.shutdownOutput();
+        socket.close();
     }
 }
