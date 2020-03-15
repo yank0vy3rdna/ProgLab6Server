@@ -3,6 +3,8 @@ package net.yank0vy3rdna_and_Iuribabalin.Commands;
 import net.yank0vy3rdna_and_Iuribabalin.App.Dispatcher;
 import net.yank0vy3rdna_and_Iuribabalin.App.ObjectInterfaces.StoredType;
 
+import java.nio.ByteBuffer;
+
 /**
  * Команда, реализующая вывод всех элементов коллекции
  */
@@ -15,5 +17,8 @@ public class ShowCommand implements Executable {
         }
         answ.append("It is full info");
         return answ.toString();
+    }
+    public String exec(String command, Dispatcher dispatcher, ByteBuffer buffer){
+        return exec(command, dispatcher);
     }
 }

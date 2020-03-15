@@ -1,21 +1,23 @@
 package net.yank0vy3rdna_and_Iuribabalin.FileWork;
 
-import net.yank0vy3rdna_and_Iuribabalin.App.UI;
+import com.fasterxml.jackson.databind.util.ByteBufferBackedInputStream;
 
 import java.io.*;
+import java.nio.ByteBuffer;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
-public class FileReader implements WorkFile {
+public class DataReader implements WorkData {
+    public DataReader(){}
 
-    private UI ui;
-
-    public FileReader(){}
+    @Override
+    public Scanner getScanner(ByteBuffer buffer) {
+        return new Scanner(new ByteBufferBackedInputStream(buffer));
+    }
 
     @Override
     public Scanner getScanner(String filename) throws IOException {
-
-
         BufferedReader reader = new BufferedReader((new InputStreamReader(new FileInputStream(filename))));
         char[] charBuffer = new char[8 * 1024];
         StringBuilder builder = new StringBuilder();
@@ -26,13 +28,5 @@ public class FileReader implements WorkFile {
         InputStream targetStream = new ByteArrayInputStream(
                 builder.toString().getBytes(StandardCharsets.UTF_8));
         return new Scanner(targetStream);
-
     }
-
-
-    @Override
-    public void setUI(UI ui) {
-        this.ui = ui;
-    }
-
 }

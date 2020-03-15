@@ -11,9 +11,6 @@ import java.nio.charset.StandardCharsets;
 
 public class ConnectionWorker {
     private final Dispatcher dispatcher;
-    public static ByteBuffer str_to_bb(String msg, Charset charset){
-        return ByteBuffer.wrap(msg.getBytes(charset));
-    }
 
     public static String bb_to_str(ByteBuffer buffer, Charset charset){
         byte[] bytes;
@@ -25,9 +22,11 @@ public class ConnectionWorker {
         }
         return new String(bytes, charset);
     }
+
     public ConnectionWorker(Dispatcher dispatcher){
         this.dispatcher = dispatcher;
     }
+
     public void processing(Socket socket) throws IOException {
         SocketChannel channel = socket.getChannel();
         ByteBuffer buffer = ByteBuffer.allocate(4);
@@ -37,11 +36,18 @@ public class ConnectionWorker {
         channel.read(buffer);
         String command = bb_to_str(buffer, StandardCharsets.UTF_8);
         buffer = ByteBuffer.allocate(1024);
+        String answ;
         if(channel.read(buffer)!=-1){
-            dispatcher.dispatch(command);
+            answ = dispatcher.dispatch(command);
         }
         else{
-            dispatcher.dispatch(command, buffer);
+            answ = dispatcher.dispatch(command, buffer);
         }
+        byte[] bytes = answ.getBytes(StandardCharsets.UTF_8);
+        ByteBuffer buf = ByteBuffer.allocate(bytes.length);
+        buf.clear();
+        buf.put(bytes);
+        channel.write(buf);
+        channel.finishConnect();
     }
 }

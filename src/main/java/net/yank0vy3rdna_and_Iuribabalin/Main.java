@@ -1,13 +1,16 @@
 package net.yank0vy3rdna_and_Iuribabalin;
 
 import com.google.gson.JsonDeserializer;
-import net.yank0vy3rdna_and_Iuribabalin.App.App;
 import net.yank0vy3rdna_and_Iuribabalin.App.Dispatcher;
-import net.yank0vy3rdna_and_Iuribabalin.App.ObjectInterfaces.*;
+import net.yank0vy3rdna_and_Iuribabalin.App.ObjectInterfaces.StoredType;
+import net.yank0vy3rdna_and_Iuribabalin.App.ObjectInterfaces.StoredTypeReader;
 import net.yank0vy3rdna_and_Iuribabalin.Commands.*;
-import net.yank0vy3rdna_and_Iuribabalin.Dragon.*;
-import net.yank0vy3rdna_and_Iuribabalin.FileWork.*;
-import net.yank0vy3rdna_and_Iuribabalin.JSON.*;
+import net.yank0vy3rdna_and_Iuribabalin.Dragon.DragonDeserializer;
+import net.yank0vy3rdna_and_Iuribabalin.Dragon.DragonReader;
+import net.yank0vy3rdna_and_Iuribabalin.FileWork.DataReader;
+import net.yank0vy3rdna_and_Iuribabalin.FileWork.WorkData;
+import net.yank0vy3rdna_and_Iuribabalin.JSON.JSONWorker;
+import net.yank0vy3rdna_and_Iuribabalin.JSON.Workerable;
 import net.yank0vy3rdna_and_Iuribabalin.Server.Server;
 
 import java.io.IOException;
@@ -17,7 +20,7 @@ import java.util.Set;
 
 public class Main
 {
-    public static void main( String[] args ) throws IOException {
+    public static void main( String[] args ){
         //Json file name finding
         try {
             int port = 8888;
@@ -66,11 +69,11 @@ public class Main
 
             Set<StoredType> set = new LinkedHashSet<>();
 
-            WorkFile fileRead = new FileReader();
+            WorkData fileRead = new DataReader();
 
             Dispatcher dispatcher = new Dispatcher(commandsMap, set, reader, filename, worker, fileRead);
 
-            Server server = new Server(port);
+            Server server = new Server(port, dispatcher);
 
             System.out.println("Server started");
 

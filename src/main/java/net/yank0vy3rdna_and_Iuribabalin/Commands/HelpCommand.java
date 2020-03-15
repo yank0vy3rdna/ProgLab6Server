@@ -2,6 +2,8 @@ package net.yank0vy3rdna_and_Iuribabalin.Commands;
 
 import net.yank0vy3rdna_and_Iuribabalin.App.Dispatcher;
 
+import java.nio.ByteBuffer;
+
 /**
  * Команда, выводящая инструкцию ко всем командам
  */
@@ -31,5 +33,8 @@ public class HelpCommand implements Executable {
                 "sum_of_age : вывести сумму значений поля age для всех элементов коллекции\n" +
                 "count_less_than_age age : вывести количество элементов, значение поля age которых меньше заданного\n" +
                 "filter_contains_name name : вывести элементы, значение поля name которых содержит заданную подстроку";
+    }
+    public String exec(String command, Dispatcher dispatcher, ByteBuffer byteBuffer){
+        return exec(command,dispatcher);
     }
 }

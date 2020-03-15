@@ -3,7 +3,7 @@ package net.yank0vy3rdna_and_Iuribabalin.App;
 import net.yank0vy3rdna_and_Iuribabalin.App.ObjectInterfaces.StoredType;
 import net.yank0vy3rdna_and_Iuribabalin.App.ObjectInterfaces.StoredTypeReader;
 import net.yank0vy3rdna_and_Iuribabalin.Commands.Executable;
-import net.yank0vy3rdna_and_Iuribabalin.FileWork.WorkFile;
+import net.yank0vy3rdna_and_Iuribabalin.FileWork.WorkData;
 import net.yank0vy3rdna_and_Iuribabalin.JSON.Workerable;
 
 import java.io.IOException;
@@ -21,10 +21,10 @@ public class Dispatcher {
     private final StoredTypeReader reader;
     private final Workerable worker;
     private final String filename;
-    private final WorkFile fileReader;
+    private final WorkData fileReader;
     private boolean enabled = true;
 
-    public Dispatcher(HashMap<String, Executable> commands, Set<StoredType> list, StoredTypeReader reader, String filename, Workerable worker, WorkFile fileRead){
+    public Dispatcher(HashMap<String, Executable> commands, Set<StoredType> list, StoredTypeReader reader, String filename, Workerable worker, WorkData fileRead){
         this.reader = reader;
         this.filename = filename;
         this.worker = worker;
@@ -43,9 +43,10 @@ public class Dispatcher {
         return null;
     }
     public String dispatch(String line, ByteBuffer byteBuffer) throws IOException {
+
         if(commandsMap.get(line.split(" ")[0].toLowerCase()) != null) {
             Executable command = commandsMap.get(line.split(" ")[0]);
-            return command.exec(line, this);
+            return command.exec(line, this, byteBuffer);
         }else if (!line.split(" ")[0].toLowerCase().equals(""))
             return "No command";
         return null;
@@ -70,7 +71,7 @@ public class Dispatcher {
         return this.enabled;
     }
 
-    public WorkFile getFileReader() {
+    public WorkData getFileReader() {
         return fileReader;
     }
 

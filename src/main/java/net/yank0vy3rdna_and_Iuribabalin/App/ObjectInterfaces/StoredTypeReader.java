@@ -1,8 +1,7 @@
 package net.yank0vy3rdna_and_Iuribabalin.App.ObjectInterfaces;
 
-import net.yank0vy3rdna_and_Iuribabalin.App.UI;
+import java.nio.ByteBuffer;
 
 public interface StoredTypeReader {
-    StoredType create(String id);
-    void setUI(UI ui);
+    StoredType create(ByteBuffer buffer);
 }

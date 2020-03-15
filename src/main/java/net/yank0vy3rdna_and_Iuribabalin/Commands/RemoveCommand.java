@@ -2,7 +2,8 @@ package net.yank0vy3rdna_and_Iuribabalin.Commands;
 
 import net.yank0vy3rdna_and_Iuribabalin.App.Dispatcher;
 import net.yank0vy3rdna_and_Iuribabalin.App.ObjectInterfaces.StoredType;
-import net.yank0vy3rdna_and_Iuribabalin.App.UI;
+
+import java.nio.ByteBuffer;
 
 /**
  * Команда, реализующая удаление элемента из коллекции по его id
@@ -10,7 +11,6 @@ import net.yank0vy3rdna_and_Iuribabalin.App.UI;
 public class RemoveCommand implements Executable{
     @Override
     public String exec(String command, Dispatcher dispatcher) {
-        dispatcher.getReader().setUI(new UI());
         try {
             String[] splitted = command.split(" ");
 
@@ -24,5 +24,9 @@ public class RemoveCommand implements Executable{
             return "Id do not search!!!";
         }
         return "Id is not valid";
+    }
+
+    public String exec(String command, Dispatcher dispatcher, ByteBuffer byteBuffer){
+        return exec(command,dispatcher);
     }
 }
