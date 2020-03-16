@@ -31,6 +31,8 @@ public class ConnectionWorker {
         DataInputStream in = new DataInputStream(socket.getInputStream());
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
         ByteBuffer buffer;
+        while (in.available()==0);
+//        System.out.println(in.available());
         byte[] bytes = new byte[4];
         in.readFully(bytes,0,4);
         buffer = ByteBuffer.wrap(bytes);
@@ -39,22 +41,20 @@ public class ConnectionWorker {
         in.readFully(bytes, 0, size);
         buffer = ByteBuffer.wrap(bytes);
         String command = bb_to_str(buffer, StandardCharsets.UTF_8);
-        bytes = in.readAllBytes();
-        buffer = ByteBuffer.wrap(bytes);
         String answ;
-        if(bytes.length!=0){
-            answ = dispatcher.dispatch(command);
-        }
-        else{
+        if(in.available()!=0){
+            bytes = in.readAllBytes();
+            buffer = ByteBuffer.wrap(bytes);
             answ = dispatcher.dispatch(command, buffer);
         }
-        bytes = answ.getBytes(StandardCharsets.UTF_8);
-        out.write(bytes);
+        else{
+            answ = dispatcher.dispatch(command);
+        }
+//        System.out.println(answ);
+        out.writeUTF(answ);
         out.flush();
         in.close();
         out.close();
-        socket.shutdownInput();
-        socket.shutdownOutput();
         socket.close();
     }
 }

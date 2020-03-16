@@ -5,11 +5,14 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class ConnectionBuilder {
-    private final ServerSocket serverSocket;
+    private final int port;
     public ConnectionBuilder(int port) throws IOException {
-        serverSocket = new ServerSocket(port);
+        this.port = port;
     }
     public Socket accept() throws IOException {
-        return serverSocket.accept();
+        ServerSocket serverSocket = new ServerSocket(port);
+        Socket socket = serverSocket.accept();
+        serverSocket.close();
+        return socket;
     }
 }
