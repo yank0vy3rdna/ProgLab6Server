@@ -31,17 +31,29 @@ public class ConnectionWorker {
         DataInputStream in = new DataInputStream(socket.getInputStream());
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
         ByteBuffer buffer;
-        while (in.available()==0);
-//        System.out.println(in.available());
+
+        while (in.available()==0); // Ожидание данных
+
+
+        //Чтение размера строки с командой
+
         byte[] bytes = new byte[4];
         in.readFully(bytes,0,4);
         buffer = ByteBuffer.wrap(bytes);
         int size = buffer.getInt();
+
+
+        // Чтение строки с командой
+
         bytes = new byte[size];
         in.readFully(bytes, 0, size);
         buffer = ByteBuffer.wrap(bytes);
         String command = bb_to_str(buffer, StandardCharsets.UTF_8);
+
+
         String answ;
+
+        // Если есть, чтение доп данных
         if(in.available()!=0){
             bytes = in.readAllBytes();
             buffer = ByteBuffer.wrap(bytes);
@@ -50,7 +62,9 @@ public class ConnectionWorker {
         else{
             answ = dispatcher.dispatch(command);
         }
-//        System.out.println(answ);
+
+        // Отправка ответа
+
         out.writeUTF(answ);
         out.flush();
         in.close();
