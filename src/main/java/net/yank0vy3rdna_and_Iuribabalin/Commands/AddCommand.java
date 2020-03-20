@@ -1,6 +1,8 @@
 package net.yank0vy3rdna_and_Iuribabalin.Commands;
 
 import net.yank0vy3rdna_and_Iuribabalin.App.Dispatcher;
+import net.yank0vy3rdna_and_Iuribabalin.App.ObjectInterfaces.StoredType;
+import net.yank0vy3rdna_and_Iuribabalin.Dragon.Dragon;
 
 import java.nio.ByteBuffer;
 
@@ -19,7 +21,8 @@ public class AddCommand implements Executable{
     }
     @Override
     public String exec(String command, Dispatcher dispatcher, ByteBuffer buffer) {
-        if(dispatcher.getCollectionWorker().insert(dispatcher.getReader().create(buffer))) {
+        StoredType object = dispatcher.getReader().create(buffer);
+        if(dispatcher.getCollectionWorker().insert(object)) {
             return "Добавлено";
         }else{
             return "Такой элемент уже есть";

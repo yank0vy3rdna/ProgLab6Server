@@ -1,7 +1,9 @@
 package net.yank0vy3rdna_and_Iuribabalin.Dragon;
+import java.io.Serializable;
 import java.util.Date;
 
-public class Person {
+public class Person implements Serializable {
+    static final long serialVersionUID = -7588980448693010399L;
     private String name; //Поле не может быть null, Строка не может быть пустой
     private java.util.Date birthday; //Поле может быть null
     private long height; //Значение поля должно быть больше 0

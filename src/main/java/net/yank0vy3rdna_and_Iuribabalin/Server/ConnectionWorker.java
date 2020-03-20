@@ -52,10 +52,11 @@ public class ConnectionWorker {
 
 
         String answ;
-
+        System.out.println(in.available());
         // Если есть, чтение доп данных
         if(in.available()!=0){
-            bytes = in.readAllBytes();
+            bytes = new byte[in.available()];
+            in.readFully(bytes, 0, in.available());
             buffer = ByteBuffer.wrap(bytes);
             answ = dispatcher.dispatch(command, buffer);
         }

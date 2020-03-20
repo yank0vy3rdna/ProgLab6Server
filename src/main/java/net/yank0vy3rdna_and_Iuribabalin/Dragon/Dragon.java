@@ -1,12 +1,15 @@
 package net.yank0vy3rdna_and_Iuribabalin.Dragon;
+
 import net.yank0vy3rdna_and_Iuribabalin.App.ObjectInterfaces.StoredType;
 import net.yank0vy3rdna_and_Iuribabalin.JSON.Workerable;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Dragon implements StoredType {
+public class Dragon implements StoredType, Serializable {
+    static final long serialVersionUID = -7588980448693010399L;
     private long id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
     private Coordinates coordinates; //Поле не может быть null
@@ -65,52 +68,56 @@ public class Dragon implements StoredType {
         this.killer = killer;
     }
 
-    public Dragon(String name, Coordinates coordinates, Long age, long weight, DragonType type, DragonCharacter character, Person killer) throws IllegalArgumentException, NullPointerException{
+    public Dragon(String name, Coordinates coordinates, Long age, long weight, DragonType type, DragonCharacter character, Person killer) throws IllegalArgumentException, NullPointerException {
         long id = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
         LocalDateTime creationDate = java.time.LocalDateTime.now();
-        if (name == null || name.isEmpty()){
+        if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Invalid name");
         }
-        if (age == null || age <= 0){
+        if (age == null || age <= 0) {
             throw new IllegalArgumentException("Invalid age");
         }
-        if (weight<=0){
+        if (weight <= 0) {
             throw new IllegalArgumentException("Invalid weight");
         }
         this.id = id;
         this.name = name;
-        this.coordinates = Objects.requireNonNull(coordinates,"invalid coordinates");
+        this.coordinates = Objects.requireNonNull(coordinates, "invalid coordinates");
         this.creationDate = creationDate;
         this.age = age;
         this.weight = weight;
         this.type = type;
-        this.character = Objects.requireNonNull(character,"invalid character");
+        this.character = Objects.requireNonNull(character, "invalid character");
         this.killer = killer;
     }
 
-    public void setId(long id){
+    public void setId(long id) {
         this.id = id;
     }
+
     @Override
     public int hashCode() {
-        return name.hashCode()
+        int hash = name.hashCode()
                 * creationDate.hashCode()
                 * coordinates.hashCode()
                 * age.hashCode()
                 * (Long.valueOf(weight)).hashCode()
-                * character.hashCode()
-                * killer.hashCode();
+                * character.hashCode();
+        if (killer != null)
+            hash *= killer.hashCode();
+        return hash;
     }
+
     @Override
     public boolean equals(StoredType obj) {
-        return this.compareTo(obj)==0;
+        return this.compareTo(obj) == 0;
     }
     //Сравнение по параметрам имени, возраста, веса, характера и типа, ЭТОГО ДОСТАТОЧНО, чтобы определить одинаковых драконов
 
     @Override
     public int compareTo(StoredType obj) {
-        if (obj instanceof Dragon){
-            if (age.equals(((Dragon) obj).age)){
+        if (obj instanceof Dragon) {
+            if (age.equals(((Dragon) obj).age)) {
                 if (weight == ((Dragon) obj).weight) {
                     if (name.equals(obj.getName())) {
                         if (character.equals(obj.getCharacter())) {
@@ -131,7 +138,7 @@ public class Dragon implements StoredType {
 
     @Override
 
-    public String toString(Workerable worker){
+    public String toString(Workerable worker) {
         return worker.writeValue(this);
     }
 }
