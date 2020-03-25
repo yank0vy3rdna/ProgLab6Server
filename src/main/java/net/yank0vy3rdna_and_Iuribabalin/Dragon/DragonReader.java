@@ -5,9 +5,10 @@ import net.yank0vy3rdna_and_Iuribabalin.App.ObjectInterfaces.StoredTypeReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.nio.ByteBuffer;
 
-public class DragonReader implements StoredTypeReader {
+public class DragonReader implements StoredTypeReader, Serializable {
     public DragonReader(){ }
 
     public StoredType create(ByteBuffer buffer){

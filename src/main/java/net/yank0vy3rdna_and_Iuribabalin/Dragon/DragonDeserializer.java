@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.yank0vy3rdna_and_Iuribabalin.App.ObjectInterfaces.StoredType;
 
+import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

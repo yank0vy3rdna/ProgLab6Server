@@ -73,7 +73,7 @@ public class Main
 
             Dispatcher dispatcher = new Dispatcher(commandsMap, set, reader, filename, worker, fileRead);
 
-            Server server = new Server(port, dispatcher);
+            Server server = new Server(port, dispatcher, new CommandDeserializer());
 
             System.out.println("Server started");
 
@@ -81,8 +81,10 @@ public class Main
 
         }catch (java.util.NoSuchElementException ex){
             System.out.println("Досвидания, можно было выйти и через exit, там уточка");
-        }catch (IOException ex){
+        }catch (IOException ex) {
             ex.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 }
