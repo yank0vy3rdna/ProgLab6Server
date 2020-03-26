@@ -14,17 +14,6 @@ public class ConnectionWorker {
     private final Dispatcher dispatcher;
     private CommandDeserializer deserializer;
 
-    public static String bb_to_str(ByteBuffer buffer, Charset charset){
-        byte[] bytes;
-        if(buffer.hasArray()) {
-            bytes = buffer.array();
-        } else {
-            bytes = new byte[buffer.remaining()];
-            buffer.get(bytes);
-        }
-        return new String(bytes, charset);
-    }
-
     public ConnectionWorker(Dispatcher dispatcher,CommandDeserializer deserializer){
         this.dispatcher = dispatcher;
         this.deserializer = deserializer;

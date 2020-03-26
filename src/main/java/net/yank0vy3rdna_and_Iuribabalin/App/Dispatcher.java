@@ -42,7 +42,7 @@ public class Dispatcher {
             return command.exec(outputCommand, this);
         }else if (!outputCommand.getCommand().toLowerCase().equals(""))
             return "No command";
-        return null;
+        return ">>";
     }
 
     public CollectionWorker getCollectionWorker() {
