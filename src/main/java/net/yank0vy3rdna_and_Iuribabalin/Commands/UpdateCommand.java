@@ -2,6 +2,7 @@ package net.yank0vy3rdna_and_Iuribabalin.Commands;
 
 import net.yank0vy3rdna_and_Iuribabalin.App.Dispatcher;
 import net.yank0vy3rdna_and_Iuribabalin.App.ObjectInterfaces.StoredType;
+import net.yank0vy3rdna_and_Iuribabalin.Dragon.DragonReader;
 
 import java.nio.ByteBuffer;
 
@@ -16,7 +17,11 @@ public class UpdateCommand implements Executable {
             for (StoredType element : dispatcher.getCollectionWorker().getSet()) {
                 if (element.getId() == Long.parseLong(outputCommand.getArgs()[0])) {
                     dispatcher.getCollectionWorker().remove(element);
-                    dispatcher.getCollectionWorker().insert(outputCommand.getDragon());
+                    StoredType object = outputCommand.getDragon();
+                    if (object == null){
+                        object = (new DragonReader()).create("null", outputCommand.getScanner());
+                    }
+                    dispatcher.getCollectionWorker().insert(object);
                     return "Update data";
                 }
             }

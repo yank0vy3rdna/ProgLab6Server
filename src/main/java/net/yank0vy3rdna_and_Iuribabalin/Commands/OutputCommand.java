@@ -3,9 +3,12 @@ package net.yank0vy3rdna_and_Iuribabalin.Commands;
 import net.yank0vy3rdna_and_Iuribabalin.Dragon.Dragon;
 
 import java.io.Serializable;
+import java.util.Scanner;
 
 public class OutputCommand implements Serializable {
     private String command = null;
+
+    private Scanner scanner = null;
 
     private String[] args = null;
 
@@ -43,5 +46,13 @@ public class OutputCommand implements Serializable {
 
     public void setArgs(String[] args) {
         this.args = args;
+    }
+
+    public Scanner getScanner() {
+        return scanner;
+    }
+
+    public void setScanner(Scanner scanner) {
+        this.scanner = scanner;
     }
 }

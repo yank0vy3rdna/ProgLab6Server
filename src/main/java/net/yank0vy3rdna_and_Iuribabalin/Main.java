@@ -25,7 +25,7 @@ public class Main
     public static void main( String[] args ){
         Logger logger = LogManager.getLogger(Main.class);
         try {
-            int port = 9000;
+            int port = 2323;
 
             String filename;
             if (args.length != 0) {

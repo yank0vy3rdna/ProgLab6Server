@@ -35,10 +35,10 @@ public class ExecuteScriptCommand implements Executable{
                             toPrint.append("Рекурсия");
                         } else {
                             files.add(line.trim().split(" ")[1]);
-                            dispatchLine(dispatcher, toPrint, line);
+                            dispatchLine(dispatcher, toPrint, line, scanner);
                         }
                     }else{
-                        dispatchLine(dispatcher, toPrint, line);
+                        dispatchLine(dispatcher, toPrint, line, scanner);
                     }
                 }
             }catch (NoSuchElementException ex){
@@ -51,13 +51,14 @@ public class ExecuteScriptCommand implements Executable{
         }
     }
 
-    private void dispatchLine(Dispatcher dispatcher, StringBuilder toPrint, String line) throws IOException {
+    private void dispatchLine(Dispatcher dispatcher, StringBuilder toPrint, String line, Scanner scanner) throws IOException {
         OutputCommand outputCommand = new  OutputCommand();
         String[] splitted = line.trim().split(" ");
         outputCommand.setCommand(splitted[0]);
         String[] args = new String[splitted.length-1];
         System.arraycopy(splitted,1,args,0,splitted.length-1);
         outputCommand.setArgs(args);
+        outputCommand.setScanner(scanner);
         toPrint.append(dispatcher.dispatch(outputCommand));
     }
 }
