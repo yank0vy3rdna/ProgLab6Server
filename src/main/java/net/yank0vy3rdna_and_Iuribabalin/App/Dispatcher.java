@@ -6,6 +6,8 @@ import net.yank0vy3rdna_and_Iuribabalin.Commands.Executable;
 import net.yank0vy3rdna_and_Iuribabalin.Commands.OutputCommand;
 import net.yank0vy3rdna_and_Iuribabalin.FileWork.WorkData;
 import net.yank0vy3rdna_and_Iuribabalin.JSON.Workerable;
+import net.yank0vy3rdna_and_Iuribabalin.Main;
+import org.apache.logging.log4j.LogManager;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -40,8 +42,11 @@ public class Dispatcher {
         if(commandsMap.get(outputCommand.getCommand().toLowerCase()) != null) {
             Executable command = commandsMap.get(outputCommand.getCommand().split(" ")[0]);
             return command.exec(outputCommand, this);
-        }else if (!outputCommand.getCommand().toLowerCase().equals(""))
+        }else if (!outputCommand.getCommand().toLowerCase().equals("")) {
+            LogManager.getLogger(Main.class).warn("No command");
             return "No command";
+        }
+        LogManager.getLogger(Main.class).warn("Empty command");
         return ">>";
     }
 

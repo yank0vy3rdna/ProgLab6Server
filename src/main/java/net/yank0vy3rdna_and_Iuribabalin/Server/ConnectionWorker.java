@@ -3,6 +3,8 @@ package net.yank0vy3rdna_and_Iuribabalin.Server;
 import net.yank0vy3rdna_and_Iuribabalin.App.Dispatcher;
 import net.yank0vy3rdna_and_Iuribabalin.Commands.CommandDeserializer;
 import net.yank0vy3rdna_and_Iuribabalin.Commands.OutputCommand;
+import net.yank0vy3rdna_and_Iuribabalin.Main;
+import org.apache.logging.log4j.LogManager;
 
 import java.io.*;
 import java.net.Socket;
@@ -28,6 +30,8 @@ public class ConnectionWorker {
         while (in.available() == 0) ; // Ожидание данных
 
 
+        LogManager.getLogger(Main.class).info("Packet received, length: {}", in.available());
+
         //Чтение размера строки с командой
 
         byte[] bytes = new byte[4];
@@ -41,11 +45,18 @@ public class ConnectionWorker {
 
         OutputCommand input = deserializer.deserializer(bytes);
 
+        LogManager.getLogger(Main.class).info("Command received: {}", input.getCommand());
+
         String answ;
 
         answ = dispatcher.dispatch(input);
 
+        if (answ.isEmpty()){
+            LogManager.getLogger(Main.class).warn("Empty answer");
+        }
+
         out.writeUTF(answ);
+        LogManager.getLogger(Main.class).info("Answer sent, length: {}", out.size());
         out.flush();
     }
 }

@@ -12,6 +12,8 @@ import net.yank0vy3rdna_and_Iuribabalin.FileWork.WorkData;
 import net.yank0vy3rdna_and_Iuribabalin.JSON.JSONWorker;
 import net.yank0vy3rdna_and_Iuribabalin.JSON.Workerable;
 import net.yank0vy3rdna_and_Iuribabalin.Server.Server;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -21,7 +23,7 @@ import java.util.Set;
 public class Main
 {
     public static void main( String[] args ){
-        //Json file name finding
+        Logger logger = LogManager.getLogger(Main.class);
         try {
             int port = 9000;
 
@@ -75,16 +77,17 @@ public class Main
 
             Server server = new Server(port, dispatcher, new CommandDeserializer());
 
-            System.out.println("Server started");
+
+            logger.info("Server started on port {}, file {}", port, filename);
 
             server.start();
 
         }catch (java.util.NoSuchElementException ex){
-            System.out.println("Досвидания, можно было выйти и через exit, там уточка");
-        }catch (IOException ex) {
+            LogManager.getLogger(Main.class).info("Server finished");
+//            System.out.println("Досвидания, можно было выйти и через exit, там уточка");
+        }catch (IOException | ClassNotFoundException ex) {
+            logger.error(ex);
             ex.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
     }
 }

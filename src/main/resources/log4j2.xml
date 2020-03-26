@@ -1,0 +1,14 @@
+<Configuration status="DEBUG">
+    <Appenders>
+        <File name="LogToFile" fileName="logs/app.log">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Logger name="net.yank0vy3rdna_and_Iuribabalin" level="debug" additivity="false">
+            <AppenderRef ref="LogToFile"/>
+        </Logger>
+    </Loggers>
+</Configuration>
