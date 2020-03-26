@@ -11,17 +11,8 @@ import java.nio.ByteBuffer;
  */
 public class AddCommand implements Executable{
     @Override
-    public String exec(String command, Dispatcher dispatcher) {
-        /*if(dispatcher.getCollectionWorker().insert(dispatcher.getReader().create())) {
-            return "Добавлено";
-        }else{
-            return "Такой элемент уже есть";
-        }*/
-        return null;
-    }
-    @Override
-    public String exec(String command, Dispatcher dispatcher, ByteBuffer buffer) {
-        StoredType object = dispatcher.getReader().create(buffer);
+    public String exec(OutputCommand outputCommand, Dispatcher dispatcher) {
+        StoredType object = outputCommand.getDragon();
         if(dispatcher.getCollectionWorker().insert(object)) {
             return "Добавлено";
         }else{

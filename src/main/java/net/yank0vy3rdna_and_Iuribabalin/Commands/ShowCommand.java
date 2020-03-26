@@ -10,15 +10,12 @@ import java.nio.ByteBuffer;
  */
 public class ShowCommand implements Executable {
     @Override
-    public String exec(String command, Dispatcher dispatcher) {
+    public String exec(OutputCommand outputCommand, Dispatcher dispatcher) {
         StringBuilder answ = new StringBuilder();
         for (StoredType element: dispatcher.getCollectionWorker().getSet()) {
             answ.append(element.toString(dispatcher.getWorker())).append("\n");
         }
         answ.append("It is full info");
         return answ.toString();
-    }
-    public String exec(String command, Dispatcher dispatcher, ByteBuffer buffer){
-        return exec(command, dispatcher);
     }
 }

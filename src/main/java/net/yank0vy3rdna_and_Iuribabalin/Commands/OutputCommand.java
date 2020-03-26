@@ -5,11 +5,13 @@ import net.yank0vy3rdna_and_Iuribabalin.Dragon.Dragon;
 import java.io.Serializable;
 
 public class OutputCommand implements Serializable {
-    public String command = null;
+    private String command = null;
 
-     public Dragon dragon = null;
+    private String[] args = null;
 
-    public String execute_commands = null;
+    private Dragon dragon = null;
+
+    private String execute_commands = null;
 
     public void setCommand(String command) {
         this.command = command;
@@ -35,4 +37,11 @@ public class OutputCommand implements Serializable {
         return command;
     }
 
+    public String[] getArgs() {
+        return args;
+    }
+
+    public void setArgs(String[] args) {
+        this.args = args;
+    }
 }

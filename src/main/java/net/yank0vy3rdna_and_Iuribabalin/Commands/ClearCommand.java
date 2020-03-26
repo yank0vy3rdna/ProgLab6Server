@@ -9,12 +9,7 @@ import java.nio.ByteBuffer;
  */
 public class ClearCommand implements Executable{
     @Override
-    public String exec(String command, Dispatcher dispatcher) {
-        dispatcher.getCollectionWorker().clear();
-        return "Collection clear";
-    }
-    @Override
-    public String exec(String command, Dispatcher dispatcher, ByteBuffer buffer) {
+    public String exec(OutputCommand outputCommand, Dispatcher dispatcher) {
         dispatcher.getCollectionWorker().clear();
         return "Collection clear";
     }

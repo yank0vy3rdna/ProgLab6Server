@@ -10,12 +10,9 @@ import java.nio.ByteBuffer;
  */
 public class RemoveLoverCommand implements Executable {
     @Override
-    public String exec(String command, Dispatcher dispatcher, ByteBuffer byteBuffer){
-        StoredType object = dispatcher.getReader().create(byteBuffer);
+    public String exec(OutputCommand outputCommand, Dispatcher dispatcher){
+        StoredType object = outputCommand.getDragon();
         dispatcher.getCollectionWorker().removeLower(object);
         return "Removed successfully";
-    }
-    public String exec(String command, Dispatcher dispatcher){
-        return null;
     }
 }

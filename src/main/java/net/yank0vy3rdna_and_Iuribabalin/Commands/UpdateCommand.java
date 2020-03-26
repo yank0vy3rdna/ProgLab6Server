@@ -11,13 +11,12 @@ import java.nio.ByteBuffer;
 public class UpdateCommand implements Executable {
 
     @Override
-    public String exec(String command, Dispatcher dispatcher, ByteBuffer buffer) {
+    public String exec(OutputCommand outputCommand, Dispatcher dispatcher) {
         try {
-            String[] splitted = command.split(" ");
             for (StoredType element : dispatcher.getCollectionWorker().getSet()) {
-                if (element.getId() == Long.parseLong(splitted[1])) {
+                if (element.getId() == Long.parseLong(outputCommand.getArgs()[0])) {
                     dispatcher.getCollectionWorker().remove(element);
-                    dispatcher.getCollectionWorker().insert(dispatcher.getReader().create(buffer));
+                    dispatcher.getCollectionWorker().insert(outputCommand.getDragon());
                     return "Update data";
                 }
             }
@@ -25,8 +24,5 @@ public class UpdateCommand implements Executable {
             return "Id wasn't found!!!";
         }
         return "Id is not valid";
-    }
-    public String exec(String command, Dispatcher dispatcher){
-        return null;
     }
 }

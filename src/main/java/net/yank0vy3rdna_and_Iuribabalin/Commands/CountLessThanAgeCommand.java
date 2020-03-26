@@ -9,13 +9,8 @@ import java.nio.ByteBuffer;
  */
 public class CountLessThanAgeCommand implements Executable {
     @Override
-    public String exec(String command, Dispatcher dispatcher) {
-        String[] sorted = command.split(" ");
-        return String.valueOf(dispatcher.getCollectionWorker().coutAge(Integer.parseInt(sorted[1])));
-    }
-    @Override
-    public String exec(String command, Dispatcher dispatcher, ByteBuffer buffer) {
-        String[] sorted = command.split(" ");
+    public String exec(OutputCommand outputCommand, Dispatcher dispatcher) {
+        String[] sorted = outputCommand.getArgs();
         return String.valueOf(dispatcher.getCollectionWorker().coutAge(Integer.parseInt(sorted[1])));
     }
 }

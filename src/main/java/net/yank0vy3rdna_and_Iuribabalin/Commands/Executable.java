@@ -9,6 +9,5 @@ import java.nio.ByteBuffer;
  * Интерфейс, который имплементируют все классы команд
  */
 public interface Executable{
-    String exec(String command, Dispatcher dispatcher) throws IOException;
-    String exec(String command, Dispatcher dispatcher, ByteBuffer buffer) throws IOException;
+    String exec(OutputCommand outputCommand, Dispatcher dispatcher) throws IOException;
 }

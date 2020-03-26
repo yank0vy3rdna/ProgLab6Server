@@ -10,19 +10,8 @@ import java.nio.ByteBuffer;
  */
 public class AddIfMaxCommand  implements Executable {
     @Override
-    public String exec(String command, Dispatcher dispatcher) {
-        /*StoredType object = dispatcher.getReader().create("null");
-        if (dispatcher.getCollectionWorker().ifMax(object)) {
-            dispatcher.getCollectionWorker().insert(object);
-            return "Добавлено";
-        }else{
-            return "Не максимальный";
-        }*/
-        return null;
-    }
-    @Override
-    public String exec(String command, Dispatcher dispatcher, ByteBuffer buffer) {
-        StoredType object = dispatcher.getReader().create(buffer);
+    public String exec(OutputCommand outputCommand, Dispatcher dispatcher) {
+        StoredType object = outputCommand.getDragon();
         if (dispatcher.getCollectionWorker().ifMax(object)) {
             dispatcher.getCollectionWorker().insert(object);
             return "Добавлено";

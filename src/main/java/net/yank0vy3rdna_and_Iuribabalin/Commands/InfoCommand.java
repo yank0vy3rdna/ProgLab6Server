@@ -10,12 +10,9 @@ import java.nio.ByteBuffer;
 public class InfoCommand implements Executable {
 
     @Override
-    public String exec(String command, Dispatcher dispatcher) {
+    public String exec(OutputCommand outputCommand, Dispatcher dispatcher) {
 
         return "Collection type: " + dispatcher.getCollectionWorker().getCollectionType() + "\nInitialization data: " + dispatcher.getCollectionWorker().getCreationDate() + "\nNumber of elements: " +  dispatcher.getCollectionWorker().getSize();
 
-    }
-    public String exec(String command, Dispatcher dispatcher, ByteBuffer byteBuffer){
-        return exec(command,dispatcher);
     }
 }

@@ -11,7 +11,7 @@ public class HelpCommand implements Executable {
 
     public static int helpCounter = 0;
     @Override
-    public String  exec(String command, Dispatcher dispatcher) {
+    public String  exec(OutputCommand outputCommand, Dispatcher dispatcher) {
         helpCounter++;
         if(helpCounter == 5){
             helpCounter = 0;
@@ -33,8 +33,5 @@ public class HelpCommand implements Executable {
                 "sum_of_age : вывести сумму значений поля age для всех элементов коллекции\n" +
                 "count_less_than_age age : вывести количество элементов, значение поля age которых меньше заданного\n" +
                 "filter_contains_name name : вывести элементы, значение поля name которых содержит заданную подстроку";
-    }
-    public String exec(String command, Dispatcher dispatcher, ByteBuffer byteBuffer){
-        return exec(command,dispatcher);
     }
 }

@@ -11,18 +11,14 @@ import java.util.stream.Collectors;
  */
 public class FilterContainsNameCommand implements Executable{
     @Override
-    public String exec(String command, Dispatcher dispatcher) {
-        return getString(command, dispatcher);
-    }
-    @Override
-    public String exec(String command, Dispatcher dispatcher, ByteBuffer buffer) {
-        return getString(command, dispatcher);
+    public String exec(OutputCommand outputCommand, Dispatcher dispatcher) {
+        return getString(outputCommand.getArgs()[0], dispatcher);
     }
 
-    private String getString(String command, Dispatcher dispatcher) {
+    private String getString(String regex, Dispatcher dispatcher) {
         StringBuilder answ = new StringBuilder();
         for (StoredType element: dispatcher.getCollectionWorker().getSet().stream().filter(
-                x->x.getName().contains(command.split(" ")[1])).collect(Collectors.toSet())) {
+                x->x.getName().contains(regex)).collect(Collectors.toSet())) {
             answ.append(element.toString(dispatcher.getWorker())).append("\n");
         }
         answ.append("It is full info");

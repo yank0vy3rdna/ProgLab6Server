@@ -10,11 +10,8 @@ import java.nio.ByteBuffer;
 public class SaveCommand implements Executable{
 
     @Override
-    public String exec(String command, Dispatcher dispatcher) {
+    public String exec(OutputCommand outputCommand, Dispatcher dispatcher) {
         dispatcher.getCollectionWorker().save(dispatcher.getFilename(),dispatcher.getWorker());
         return "Сохранено";
-    }
-    public String exec(String command, Dispatcher dispatcher, ByteBuffer buffer){
-        return exec(command, dispatcher);
     }
 }

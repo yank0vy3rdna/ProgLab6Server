@@ -3,6 +3,7 @@ package net.yank0vy3rdna_and_Iuribabalin.App;
 import net.yank0vy3rdna_and_Iuribabalin.App.ObjectInterfaces.StoredType;
 import net.yank0vy3rdna_and_Iuribabalin.App.ObjectInterfaces.StoredTypeReader;
 import net.yank0vy3rdna_and_Iuribabalin.Commands.Executable;
+import net.yank0vy3rdna_and_Iuribabalin.Commands.OutputCommand;
 import net.yank0vy3rdna_and_Iuribabalin.FileWork.WorkData;
 import net.yank0vy3rdna_and_Iuribabalin.JSON.Workerable;
 
@@ -34,20 +35,12 @@ public class Dispatcher {
         commandsMap.putAll(commands);
     }
 
-    public String dispatch(String line) throws IOException {
-        if(commandsMap.get(line.split(" ")[0].toLowerCase()) != null) {
-            Executable command = commandsMap.get(line.split(" ")[0]);
-            return command.exec(line, this);
-        }else if (!line.split(" ")[0].toLowerCase().equals(""))
-            return "No command";
-        return null;
-    }
-    public String dispatch(String line, ByteBuffer byteBuffer) throws IOException {
+    public String dispatch(OutputCommand outputCommand) throws IOException {
 
-        if(commandsMap.get(line.split(" ")[0].toLowerCase()) != null) {
-            Executable command = commandsMap.get(line.split(" ")[0]);
-            return command.exec(line, this, byteBuffer);
-        }else if (!line.split(" ")[0].toLowerCase().equals(""))
+        if(commandsMap.get(outputCommand.getCommand().toLowerCase()) != null) {
+            Executable command = commandsMap.get(outputCommand.getCommand().split(" ")[0]);
+            return command.exec(outputCommand, this);
+        }else if (!outputCommand.getCommand().toLowerCase().equals(""))
             return "No command";
         return null;
     }
@@ -58,9 +51,6 @@ public class Dispatcher {
 
     public Workerable getWorker(){
         return worker;
-    }
-    public StoredTypeReader getReader(){
-        return reader;
     }
 
     public String getFilename(){
@@ -75,8 +65,4 @@ public class Dispatcher {
         return fileReader;
     }
 
-    public void stop(){
-        this.enabled = false;
-        //collectionWorker.save(filename,worker);
-    }
 }

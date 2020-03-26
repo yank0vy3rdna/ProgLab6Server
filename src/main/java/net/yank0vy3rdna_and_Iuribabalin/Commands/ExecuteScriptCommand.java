@@ -4,6 +4,7 @@ import net.yank0vy3rdna_and_Iuribabalin.App.Dispatcher;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -14,31 +15,13 @@ import java.util.Scanner;
  */
 public class ExecuteScriptCommand implements Executable{
     static List<String> files = new ArrayList<>();
-    @Override
-    public String exec(String command, Dispatcher dispatcher) throws IOException {
 
-        String[] sorted = command.split(" ");
+    @Override
+    public String exec(OutputCommand outputCommand, Dispatcher dispatcher) throws IOException {
 
         StringBuilder toPrint = new StringBuilder();
         Scanner scanner;
-        try {
-             scanner = dispatcher.getFileReader().getScanner("resources/" + sorted[1]);
-        } catch (IOException | ArrayIndexOutOfBoundsException e){
-            try {
-                scanner = dispatcher.getFileReader().getScanner("resources/" + sorted[1] + ".txt");
-            }catch (IOException | ArrayIndexOutOfBoundsException ex){
-                return "No filename";
-            }
-        }
-        return execute_script(dispatcher, toPrint, scanner);
-    }
-
-    @Override
-    public String exec(String command, Dispatcher dispatcher, ByteBuffer buffer) throws IOException {
-
-        StringBuilder toPrint = new StringBuilder();
-        Scanner scanner;
-        scanner = dispatcher.getFileReader().getScanner(buffer);
+        scanner = dispatcher.getFileReader().getScanner(ByteBuffer.wrap(outputCommand.getExecute_commands().getBytes(StandardCharsets.UTF_8)));
         return execute_script(dispatcher, toPrint, scanner);
     }
 
@@ -52,10 +35,10 @@ public class ExecuteScriptCommand implements Executable{
                             toPrint.append("Рекурсия");
                         } else {
                             files.add(line.trim().split(" ")[1]);
-                            toPrint.append(dispatcher.dispatch(line.trim()));
+                            dispatchLine(dispatcher, toPrint, line);
                         }
                     }else{
-                        toPrint.append(dispatcher.dispatch(line.trim()));
+                        dispatchLine(dispatcher, toPrint, line);
                     }
                 }
             }catch (NoSuchElementException ex){
@@ -66,5 +49,15 @@ public class ExecuteScriptCommand implements Executable{
         }catch (ArrayIndexOutOfBoundsException ex){
             return "No filename";
         }
+    }
+
+    private void dispatchLine(Dispatcher dispatcher, StringBuilder toPrint, String line) throws IOException {
+        OutputCommand outputCommand = new  OutputCommand();
+        String[] splitted = line.trim().split(" ");
+        outputCommand.setCommand(splitted[0]);
+        String[] args = new String[splitted.length-1];
+        System.arraycopy(splitted,1,args,0,splitted.length-1);
+        outputCommand.setArgs(args);
+        toPrint.append(dispatcher.dispatch(outputCommand));
     }
 }

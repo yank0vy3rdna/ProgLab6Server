@@ -10,12 +10,10 @@ import java.nio.ByteBuffer;
  */
 public class RemoveCommand implements Executable{
     @Override
-    public String exec(String command, Dispatcher dispatcher) {
+    public String exec(OutputCommand outputCommand, Dispatcher dispatcher) {
         try {
-            String[] splitted = command.split(" ");
-
             for (StoredType element : dispatcher.getCollectionWorker().getSet()) {
-                if (element.getId() == Long.parseLong(splitted[1])) {
+                if (element.getId() == Long.parseLong(outputCommand.getArgs()[0])) {
                     dispatcher.getCollectionWorker().remove(element);
                     return "Delete accept";
                 }
@@ -24,9 +22,5 @@ public class RemoveCommand implements Executable{
             return "Id do not search!!!";
         }
         return "Id is not valid";
-    }
-
-    public String exec(String command, Dispatcher dispatcher, ByteBuffer byteBuffer){
-        return exec(command,dispatcher);
     }
 }

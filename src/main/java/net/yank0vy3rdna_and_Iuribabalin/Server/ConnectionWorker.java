@@ -54,19 +54,7 @@ public class ConnectionWorker {
 
         String answ;
 
-        if(input.dragon !=null ){
-            ///////////////////////////                 ЁБАНЫЙ КОСТЫЛЬ УБЕРИ НАХЕР Я ЗАЕБАЛСЯ ИЗВИНИ    ;)          ////////////////////////////////////////
-            ByteArrayOutputStream costel1 = new ByteArrayOutputStream();
-            ObjectOutputStream costel2 = new ObjectOutputStream(costel1);
-            costel2.writeObject(input.dragon);
-
-            buffer = ByteBuffer.wrap(costel1.toByteArray());
-///////////////////////////////////////////////////////////////////
-            answ = dispatcher.dispatch(input.command, buffer);
-        }
-        else{
-            answ = dispatcher.dispatch(input.command);
-        }
+        answ = dispatcher.dispatch(input);
 
         out.writeUTF(answ);
         out.flush();

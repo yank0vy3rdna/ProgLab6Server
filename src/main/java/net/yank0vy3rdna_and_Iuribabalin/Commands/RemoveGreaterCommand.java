@@ -11,12 +11,9 @@ import java.nio.ByteBuffer;
 
 public class RemoveGreaterCommand implements Executable {
     @Override
-    public String exec(String command, Dispatcher dispatcher, ByteBuffer byteBuffer){
-        StoredType object = dispatcher.getReader().create(byteBuffer);
+    public String exec(OutputCommand outputCommand, Dispatcher dispatcher){
+        StoredType object = outputCommand.getDragon();
         dispatcher.getCollectionWorker().removeGreater(object);
         return "Removed successfully";
-    }
-    public String exec(String command, Dispatcher dispatcher){
-        return null;
     }
 }

@@ -9,34 +9,8 @@ import java.nio.ByteBuffer;
  */
 public class ExitCommand implements Executable {
     @Override
-    public String exec(String command, Dispatcher dispatcher) {
-        dispatcher.stop();
-        return "Работа в консоли закончена\n" +
-                "              `..``.` ``                      \n" +
-                "            `.```  `...````                   \n" +
-                "          `..` `...```.``..`                  \n" +
-                " ..   `. `  `:oyyy/  `...````                 \n" +
-                "`sso//syo:.. .+yyy/-.  `.`````                \n" +
-                " :yyysoooo+. `.--`  .```... ``                \n" +
-                "  .:osssyys/-`  ..``.-`  `..``                \n" +
-                "  :/yyysoosys-``.--   .``....                 \n" +
-                " :ysoosssosys:--  ..`...-` `.`            ``` \n" +
-                "  `.o/osso//` .-....-`  .--.           .``...`\n" +
-                "       `-``-....-.  `-.```.` `..`  ````...` `.\n" +
-                "       .......   ...``.`  .-..``.```..` `..`..\n" +
-                "    .....-`  `.```.`  `-.```.` `...` `.``...` \n" +
-                " ``....   .````.   ...` ``  ...` `.````..  ```\n" +
-                "`..   `````.`   ..```.` `..`  `.``..`   .`.``.\n" +
-                "` ..`````   ..```.`  .-.` `.```..   `````..  `\n" +
-                ".....   `.`````  `--`  .```.-.  `.````.   ...`\n" +
-                "..  ..`````   ...` `.``.--`  ..``.-`  `...`.. \n" +
-                "``.....`  `..` `.` `.-`  ..``.-.  `-....-.    \n" +
-                " `-.` `...``.` `...   .``..-   .--..--  .`    \n" +
-                "   `.-.`..``...` `..`.-:.  `:-..--   `        \n" +
-                "        `...``......-` `-.....`               ";
-    }
-    public String exec(String command, Dispatcher dispatcher, ByteBuffer buffer) {
-        dispatcher.stop();
+    public String exec(OutputCommand outputCommand, Dispatcher dispatcher) {
+        //dispatcher.stop();
         return "Работа в консоли закончена\n" +
                 "              `..``.` ``                      \n" +
                 "            `.```  `...````                   \n" +
