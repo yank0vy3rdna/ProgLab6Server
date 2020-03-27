@@ -4,6 +4,8 @@ import net.yank0vy3rdna_and_Iuribabalin.App.ObjectInterfaces.Storable;
 import net.yank0vy3rdna_and_Iuribabalin.App.ObjectInterfaces.StoredType;
 import net.yank0vy3rdna_and_Iuribabalin.Dragon.Dragon;
 import net.yank0vy3rdna_and_Iuribabalin.JSON.Workerable;
+import net.yank0vy3rdna_and_Iuribabalin.Main;
+import org.apache.logging.log4j.LogManager;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -80,7 +82,7 @@ public class CollectionWorker implements Storable {
             collection = data.getSet();
             creationDate = data.getCreationDate();
         }catch (ClassCastException e){
-            System.out.println("Файл битый");
+            LogManager.getLogger(Main.class).warn("Файл битый");
         }
     }
 

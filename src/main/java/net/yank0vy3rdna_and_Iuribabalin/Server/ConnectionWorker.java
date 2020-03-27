@@ -58,5 +58,11 @@ public class ConnectionWorker {
         out.writeUTF(answ);
         LogManager.getLogger(Main.class).info("Answer sent, length: {}", out.size());
         out.flush();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        socket.close();
     }
 }
