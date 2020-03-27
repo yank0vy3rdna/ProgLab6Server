@@ -40,6 +40,7 @@ public class Dragon implements StoredType, Serializable {
         return age;
     }
 
+
     public long getWeight() {
         return weight;
     }

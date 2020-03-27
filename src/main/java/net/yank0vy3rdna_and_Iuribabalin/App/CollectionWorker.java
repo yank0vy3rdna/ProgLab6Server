@@ -62,11 +62,7 @@ public class CollectionWorker implements Storable {
 
     @Override
     public boolean ifMax(StoredType object) {
-        for (StoredType obj : collection){
-            if(obj.compareTo(object)>=0)
-                return false;
-        }
-        return true;
+        return collection.stream().anyMatch(x -> x.compareTo(object) <= 0);
     }
 
     public void save(String fileName, Workerable worker){
@@ -107,12 +103,7 @@ public class CollectionWorker implements Storable {
     }
 
     public int coutAge(int number){
-        int cnt = 0;
-
-        for (StoredType obj : collection)
-            if(obj.getAge()<number)
-                cnt++;
-        return cnt;
+        return (int) collection.stream().filter(obj -> obj.getAge() < number).count();
     }
 
 }
