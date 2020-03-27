@@ -44,7 +44,7 @@ public class Dispatcher {
             return command.exec(outputCommand, this);
         }else if (!outputCommand.getCommand().toLowerCase().equals("")) {
             LogManager.getLogger(Main.class).warn("No command");
-            return "No command";
+            return "No command\n";
         }
         LogManager.getLogger(Main.class).warn("Empty command");
         return ">>";

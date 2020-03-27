@@ -48,6 +48,8 @@ public class ExecuteScriptCommand implements Executable{
 
         }catch (ArrayIndexOutOfBoundsException ex){
             return "No filename";
+        }catch (NullPointerException ex){
+            return "Bad request";
         }
     }
 
