@@ -7,41 +7,51 @@ import net.yank0vy3rdna_and_Iuribabalin.Main;
 import org.apache.logging.log4j.LogManager;
 
 import java.io.*;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
+import java.nio.charset.StandardCharsets;
+import java.util.Set;
 
 
 public class ConnectionWorker {
     private final Dispatcher dispatcher;
     private CommandDeserializer deserializer;
 
-    public ConnectionWorker(Dispatcher dispatcher,CommandDeserializer deserializer){
+    public ConnectionWorker
+            (Dispatcher dispatcher,CommandDeserializer deserializer){
         this.dispatcher = dispatcher;
         this.deserializer = deserializer;
     }
 
-    public void processing(Socket socket) throws IOException, ClassNotFoundException {
+    public void processing(Selector selector) throws IOException {
+        ByteBuffer buffer = ByteBuffer.allocate(1024);
+        SocketChannel channel = null;
+        while (channel == null){
+            selector.select();
+            Set<SelectionKey> selectedKeys = selector.selectedKeys();
+            for (SelectionKey key : selectedKeys) {
+                if(key.isReadable()){
+                    channel = (SocketChannel)key.channel();
+                    channel.read(buffer);
+                    buffer.flip();
+                    channel.register(selector, SelectionKey.OP_WRITE);
 
-        DataInputStream in = new DataInputStream(socket.getInputStream());
-        DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-        ByteBuffer buffer;
+                    break;
+                }
+            }
+        }
 
-        while (in.available() == 0) ; // Ожидание данных
 
-
-        LogManager.getLogger(Main.class).info("Packet received, length: {}", in.available());
+        LogManager.getLogger(Main.class).info("Packet received, length: {}", buffer.array().length);
 
         //Чтение размера строки с командой
 
-        byte[] bytes = new byte[4];
-        in.readFully(bytes,0,4);
-        buffer = ByteBuffer.wrap(bytes);
-        int size = buffer.getInt();
-
-        bytes = new byte[size];
-        in.readFully(bytes, 0, size);
-
+        byte[] bytes =buffer.array();
 
         OutputCommand input = deserializer.deserializer(bytes);
 
@@ -50,19 +60,36 @@ public class ConnectionWorker {
         String answ;
 
         answ = dispatcher.dispatch(input);
-
+        buffer.clear();
         if (answ.isEmpty()){
             LogManager.getLogger(Main.class).warn("Empty answer");
         }
+        bytes = answ.getBytes(StandardCharsets.UTF_8);
+        buffer = ByteBuffer.wrap(bytes);
 
-        out.writeUTF(answ);
-        LogManager.getLogger(Main.class).info("Answer sent, length: {}", out.size());
-        out.flush();
+        channel = null;
+        while (channel == null){
+            selector.select();
+            Set<SelectionKey> selectedKeys = selector.selectedKeys();
+            for (SelectionKey key : selectedKeys) {
+                if(key.isWritable()){
+                    channel = (SocketChannel)key.channel();
+                    while(buffer.hasRemaining()) {
+                        channel.write(buffer);
+                    }
+                    break;
+                }
+            }
+        }
+
+        LogManager.getLogger(Main.class).info("Answer sent, length: {}", buffer.array().length);
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        socket.close();
+        channel.socket().close();
+        channel.close();
+        selector.close();
     }
 }

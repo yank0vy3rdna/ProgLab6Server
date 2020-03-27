@@ -6,6 +6,9 @@ import org.apache.logging.log4j.LogManager;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.SocketChannel;
 
 public class Server {
     private final ConnectionBuilder connectionBuilder;
@@ -18,9 +21,9 @@ public class Server {
     }
     public void start() throws IOException, ClassNotFoundException {
         while (isStarted) {
-            Socket socket = connectionBuilder.accept();
-            LogManager.getLogger().info("Connection with client({}) accepted", socket.getRemoteSocketAddress());
-            connectionWorker.processing(socket);
+            Selector selector = connectionBuilder.accept();
+            LogManager.getLogger().info("Connection with client accepted");
+            connectionWorker.processing(selector);
         }
     }
 }
