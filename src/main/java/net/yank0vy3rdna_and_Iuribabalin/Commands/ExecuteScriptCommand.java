@@ -18,7 +18,6 @@ public class ExecuteScriptCommand implements Executable{
 
     @Override
     public String exec(OutputCommand outputCommand, Dispatcher dispatcher) throws IOException {
-
         StringBuilder toPrint = new StringBuilder();
         Scanner scanner;
         scanner = dispatcher.getFileReader().getScanner(ByteBuffer.wrap(outputCommand.getExecute_commands().getBytes(StandardCharsets.UTF_8)));
@@ -44,6 +43,7 @@ public class ExecuteScriptCommand implements Executable{
             }catch (NoSuchElementException ex){
                 toPrint.append("\nCompleted read");
             }
+            toPrint.append("\n");
             return toPrint.toString();
 
         }catch (ArrayIndexOutOfBoundsException ex){
