@@ -62,7 +62,7 @@ public class CollectionWorker implements Storable {
 
     @Override
     public boolean ifMax(StoredType object) {
-        return collection.stream().anyMatch(x -> x.compareTo(object) <= 0);
+        return collection.stream().max(StoredType::compareTo).get().compareTo(object) < 0;
     }
 
     public void save(String fileName, Workerable worker){
